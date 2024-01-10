@@ -1,4 +1,5 @@
 # one stop build and execution
-Set-Location "D:\GoGeminiChat"
+$scriptPath = $PSScriptRoot
+Set-Location $scriptPath
 go build "./main.go"
 ./main.exe
