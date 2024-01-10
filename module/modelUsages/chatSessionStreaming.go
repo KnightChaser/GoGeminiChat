@@ -19,18 +19,24 @@ func ChatSessionStreaming(genAIModelName string) {
 
 	apiKeyString := apikey.GetGoogleGenAIAPIKey()
 
-	// Ready to bring the model
+	// Colorful text print on the console
 	context := context.Background()
-	fmt.Printf("Obtained an API KEY: %s\n", apiKeyString)
+	yellowColorBoldPrint := color.New(color.FgYellow, color.Bold)
+	cyanColorBoldPrint := color.New(color.FgCyan, color.Bold)
+	whiteColorItalicPrint := color.New(color.FgWhite, color.Italic)
+	whiteColorBoldPrint := color.New(color.FgWhite, color.Bold)
+
+	// Ready to bring the model
+	fmt.Printf("Obtained an API KEY: %s\n", whiteColorBoldPrint.Sprint(apiKeyString))
 	client, err := genai.NewClient(context, option.WithAPIKey(apiKeyString))
 	if err != nil {
 		log.Panic(err)
 	}
 	defer client.Close()
 
+	// Prepare the model with disabling safety regulation that may harm the user experience
 	model := client.GenerativeModel(genAIModelName)
 	chatSession := model.StartChat()
-	// Disable not funny safety setting by disabling annotation
 	model.SafetySettings = []*genai.SafetySetting{
 		{
 			Category:  genai.HarmCategoryDangerousContent,
@@ -52,9 +58,7 @@ func ChatSessionStreaming(genAIModelName string) {
 	chatSession.History = []*genai.Content{}
 
 	fmt.Printf("Chat session with Gemini AI Model(%s) started.\n", genAIModelName)
-	yellowColorBoldPrint := color.New(color.FgYellow, color.Bold)
-	cyanColorBoldPrint := color.New(color.FgCyan, color.Bold)
-	whiteColorItalicPrint := color.New(color.FgWhite, color.Italic)
+
 	// Start chat session endlessly. User -> Model -> User -> Model
 	for {
 		// Receive user
