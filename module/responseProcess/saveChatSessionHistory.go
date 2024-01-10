@@ -66,5 +66,5 @@ func SaveChatSessionHistoryIntoJSON(chatSession *genai.ChatSession, filename str
 		return
 	}
 
-	fmt.Printf("Chat history saved to %s as JSON.\n", filepath)
+	fmt.Printf("Chat history saved to %s as JSON.\n", utility.CyanColorBoldPrint.Sprint(filepath))
 }

@@ -75,7 +75,7 @@ func ChatSessionStreaming(genAIModelName string) {
 			break
 		} else if strings.TrimRight(question, "\r\n") == "save" {
 			fmt.Println("The chat history will be saved into a file.")
-			fmt.Print("filename> ")
+			utility.CyanColorBoldPrint.Print("filename to save...> ")
 			var filename string
 			reader := bufio.NewReader(os.Stdin)
 			filename, error := reader.ReadString('\n')
