@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"gogeminichat/apikey"
 	"gogeminichat/module/responseProcess"
+	"gogeminichat/module/utility"
 	"log"
 	"os"
 	"strings"
 
-	"github.com/fatih/color"
 	"github.com/google/generative-ai-go/genai"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
@@ -20,15 +20,9 @@ func ChatSessionStreaming(genAIModelName string) {
 
 	apiKeyString := apikey.GetGoogleGenAIAPIKey()
 
-	// Colorful text print on the console
-	context := context.Background()
-	yellowColorBoldPrint := color.New(color.FgYellow, color.Bold)
-	cyanColorBoldPrint := color.New(color.FgCyan, color.Bold)
-	whiteColorItalicPrint := color.New(color.FgWhite, color.Italic)
-	whiteColorBoldPrint := color.New(color.FgWhite, color.Bold)
-
 	// Ready to bring the model
-	fmt.Printf("Obtained an API KEY: %s\n", whiteColorBoldPrint.Sprint(apiKeyString))
+	context := context.Background()
+	fmt.Printf("Obtained an API KEY: %s\n", utility.WhiteColorBoldPrint.Sprint(apiKeyString))
 	client, err := genai.NewClient(context, option.WithAPIKey(apiKeyString))
 	if err != nil {
 		log.Panic(err)
@@ -66,7 +60,7 @@ func ChatSessionStreaming(genAIModelName string) {
 	// Start chat session endlessly. User -> Model -> User -> Model
 	for {
 		// Receive user
-		yellowColorBoldPrint.Println(" - user")
+		utility.YellowColorBoldPrint.Println(" - user")
 		fmt.Print("> ")
 		var question string
 		reader := bufio.NewReader(os.Stdin)
@@ -98,14 +92,14 @@ func ChatSessionStreaming(genAIModelName string) {
 		if error != nil {
 			log.Fatal(err)
 		}
-		whiteColorItalicPrint.Printf("...Prompt length: %d tokens\n", tokenQtyResponse.TotalTokens)
-		whiteColorItalicPrint.Printf("...User-Model interaction: %d times\n", chatSessionInteractionCount)
+		utility.WhiteColorItalicPrint.Printf("...Prompt length: %d tokens\n", tokenQtyResponse.TotalTokens)
+		utility.WhiteColorItalicPrint.Printf("...User-Model interaction: %d times\n", chatSessionInteractionCount)
 
 		responseIterative := chatSession.SendMessageStream(context, genai.Text(question))
 		var answer string
 
 		// Print response from the model via streaming
-		cyanColorBoldPrint.Printf(" - %s\n", genAIModelName)
+		utility.CyanColorBoldPrint.Printf(" - %s\n", genAIModelName)
 		for {
 			response, error := responseIterative.Next()
 			if error == iterator.Done {
