@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"gogeminichat/apikey"
+	"gogeminichat/module/modelUsages"
 )
 
 func main() {
-	fmt.Printf("Obtained an API key: %v\n", apikey.GetGoogleGenAIAPIKey())
+	fmt.Println("Welcome to GoGeminiChat!")
+	modelUsages.ChatSessionStreaming("gemini-pro")
 }
