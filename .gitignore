@@ -1,4 +1,7 @@
 # file
 apikey/apikey.txt
 userChatHistory/*.json
+
+# executables and its temporary file
 main.exe
+main.exe~ 
