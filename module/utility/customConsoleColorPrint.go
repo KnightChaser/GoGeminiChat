@@ -4,7 +4,6 @@ import "github.com/fatih/color"
 
 var (
 	CyanColorBoldPrint    = color.New(color.FgCyan, color.Bold)
-	MagentaColorBoldPrint = color.New(color.FgMagenta, color.Bold)
 	WhiteColorItalicPrint = color.New(color.FgWhite, color.Italic)
 	WhiteColorBoldPrint   = color.New(color.FgWhite, color.Bold)
 	YellowColorBoldPrint  = color.New(color.FgYellow, color.Bold)
