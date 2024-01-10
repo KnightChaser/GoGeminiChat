@@ -34,6 +34,9 @@ func ChatSessionStreaming(genAIModelName string) {
 	}
 	defer client.Close()
 
+	// An interaction count
+	chatSessionInteractionCount := 0
+
 	// Prepare the model with disabling safety regulation that may harm the user experience
 	model := client.GenerativeModel(genAIModelName)
 	chatSession := model.StartChat()
@@ -71,12 +74,14 @@ func ChatSessionStreaming(genAIModelName string) {
 			log.Fatal(err)
 		}
 
+		chatSessionInteractionCount += 1
 		// Counting question token
 		tokenQtyResponse, error := model.CountTokens(context, genai.Text(question))
 		if error != nil {
 			log.Fatal(err)
 		}
 		whiteColorItalicPrint.Printf("...Prompt length: %d tokens\n", tokenQtyResponse.TotalTokens)
+		whiteColorItalicPrint.Printf("...User-Model interaction: %d times\n", chatSessionInteractionCount)
 
 		responseIterative := chatSession.SendMessageStream(context, genai.Text(question))
 		var answer string
